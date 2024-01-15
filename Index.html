@@ -1933,6 +1933,12 @@ window.FlexDashboardComponents.push({
 Maeyer</a></li>
 </ul>
 <hr />
+<p>All materials for the course can be downloaded via
+<a href="https://github.com/Sdemaeyer2/ABAR_Geneva24" target="_blank">the
+github page </a>.</p>
+<hr />
+<p>Questions or feedback, do not hesitate to contact me at <a href="mailto:sven.demaeyer@uantwerpen.be" class="email">sven.demaeyer@uantwerpen.be</a></p>
+<hr />
 </div>
 <div id="quick-overview" class="section level1">
 <h1>Quick Overview</h1>
@@ -2206,9 +2212,9 @@ that is known.</p>
 <p>In the first part, we will introduce the basic rationale behind
 Bayesian statistics. We start by explaining the three key components of
 a Bayesian model: the prior, the likelihood, and the posterior.</p>
-<p>Then, we switch to how the estimation of parameters by first
-introducing the basic idea of grid approximation and then outlining the
-basic idea of MCMC sampling.</p>
+<p>Then, we switch to the estimation of parameters by first introducing
+the basic idea of grid approximation and then outlining the basic idea
+of MCMC sampling.</p>
 <p>At the end of the session we introduce <code>brms</code> and learn
 how to estimate a simple regression model with <code>brms</code> and
 just use the <code>summary()</code> and <code>plot()</code> functions to
@@ -2223,7 +2229,7 @@ get insight in the model results.</p>
 </div>
 <div id="data" class="section level4">
 <h4>Data</h4>
-<p>For this first part, we used a straightforward dataset on predicting
+<p>For this first part, we use a straightforward dataset on predicting
 racetimes for a marathon. The data can be downloaded
 <a href="Data/MarathonData.RData" target="blank"> here </a> (right-click
 to save as).</p>
@@ -2254,12 +2260,41 @@ here </a></p>
 <h2>Column 1</h2>
 <div id="outline-2" class="section level3">
 <h3>Outline</h3>
+<p>The second part of this workshop taps into the critical appraisal of
+your model. Bayesian analyses (as a matter a fact, all statistical
+analyses) are full of choices. So, as a researcher, it is our duty to
+understand what we are doing and provide evidence and arguments for the
+validity of our choices. To increase reproducibility, we tap into how
+you can use the WAMBS check-list to inform readers about our choices and
+decisions on the choice of priors, model convergence, and prior
+sensitivity.</p>
+<div id="slides-1" class="section level4">
+<h4>Slides</h4>
+<p>The htlm-version of the slides for this part can be found
+<a href="Presentations/Part2/Slides_Part2.html" target="blank">here</a></p>
+</div>
+<div id="data-1" class="section level4">
+<h4>Data</h4>
+<p>For this part, we again use the straightforward dataset on predicting
+racetimes for a marathon. The data can be downloaded
+<a href="Data/MarathonData.RData" target="blank"> here </a> (right-click
+to save as).</p>
+</div>
 </div>
 </div>
 <div id="column-2-2" class="section level2">
 <h2>Column 2</h2>
 <div id="references-and-resources-1" class="section level3">
 <h3>References and resources</h3>
+<p>Depaoli, S., &amp; Van de Schoot, R. (2017). Improving transparency
+and replication in Bayesian statistics: The WAMBS-Checklist.
+Psychological methods, 22(2), 240.</p>
+<p>Van de Schoot, R., Veen, D., Smeets, L., Winter, S. D., &amp;
+Depaoli, S. (2020). A tutorial on using the WAMBS checklist to avoid the
+misuse of Bayesian statistics. Small Sample Size Solutions: A Guide for
+Applied Researchers and Practitioners; van de Schoot, R., Miocevic, M.,
+Eds, 30-49.</p>
+<p>See the WAMBS tab on this dashboard for the template we use.</p>
 </div>
 </div>
 </div>
@@ -2269,12 +2304,60 @@ here </a></p>
 <h2>Column 1</h2>
 <div id="outline-3" class="section level3">
 <h3>Outline</h3>
+<p>This part of the workshop is about interpreting and reporting the
+results of our models. Here we demonstrate different ways to make sense
+of the information in our posterior probability distributions for our
+parameters. First, we will show how different packages in <code>R</code>
+can be used to visually explore the posterior probability distributions.
+Next, we focus on how to numerically summarize the information in the
+posterior probability distribution in order to support our reporting on
+the results.</p>
+<div id="slides-2" class="section level4">
+<h4>Slides</h4>
+<p>The htlm-version of the slides for this first part can be found
+<a href="Presentations/Part3/Slides_Part3.html" target="blank">here</a></p>
+</div>
+<div id="data-2" class="section level4">
+<h4>Data</h4>
+<p>For this first part, we used a dataset on the effect of a writing
+intervention. The data can be downloaded
+<a href="Data/WritingData.RData" target="blank"> here </a> (right-click
+to save as).</p>
+</div>
+<div id="r-scripts" class="section level4">
+<h4>R scripts</h4>
+<p>A powerfull way to visualize the effects of (mixed effects)
+regression models, is to plot <i>Hypothetical Outcome Plots</i>. These
+type of plots need a considerable amount of coding. Therefore, we
+provide two R-scripts that can be used as a starting point to plot your
+own results:</p>
+<ul>
+<li><p><a href="R_code/HOP_Script.R" target="blank"> HOP_Script.R
+</a></p></li>
+<li><p><a href="R_code/HOP_MixedEffects_Script.R" target="blank">
+HOP_MixedEffects_Script.R </a></p></li>
+</ul>
+</div>
 </div>
 </div>
 <div id="column-2-3" class="section level2">
 <h2>Column 2</h2>
 <div id="references-and-resources-2" class="section level3">
 <h3>References and resources</h3>
+<p>More on the <code>bayesplot</code> package:
+<a href="https://mc-stan.org/bayesplot/" target="blank">
+https://mc-stan.org/bayesplot/ </a></p>
+<p>More on the <code>ggdist</code> package:
+<a href="https://mjskay.github.io/ggdist/reference/index.html" target="blank">
+https://mjskay.github.io/ggdist/reference/index.html </a></p>
+<p>Papers on the use of quantile dotplots:</p>
+<ul>
+<li><p><a href="https://dl.acm.org/doi/10.1145/2858036.2858558" target="blank">
+https://dl.acm.org/doi/10.1145/2858036.2858558 </a></p></li>
+<li><p><a href="https://www.mjskay.com/papers/chi2018-uncertain-bus-decisions.pdf" target="blank">
+https://www.mjskay.com/papers/chi2018-uncertain-bus-decisions.pdf
+</a></p></li>
+</ul>
 </div>
 </div>
 </div>
@@ -2284,12 +2367,36 @@ here </a></p>
 <h2>Column 1</h2>
 <div id="outline-4" class="section level3">
 <h3>Outline</h3>
+<p>In the final part, you can apply all the insights of the course on
+your own research by analysing your own data using a Bayesian approach.
+If you have no concrete dataset yet to apply the Bayesian analyses, you
+can execute the integrated exercise (see below).</p>
+</div>
+<div id="integrated-exercise" class="section level3">
+<h3>Integrated exercise</h3>
+<p>On the following page you can find an html file with the tasks for
+this exercise:
+<a href="Integrated_exercise/Exercise.html" target="blank">click
+here</a></p>
+<p>The dataset for this exercise can be downloaded here:
+<a href="Integrated_exercise/Subtitles.RData" target="blank">Subtitles.RData</a></p>
+<p>If you are stuck while making this exercise, you can consult an
+example response
+<a href="Integrated_exercise/Exercise_response.html" target="blank">here
+</a></p>
 </div>
 </div>
 <div id="column-2-4" class="section level2">
 <h2>Column 2</h2>
 <div id="references-and-resources-3" class="section level3">
 <h3>References and resources</h3>
+<p>The data for the exercise is a simulated dataset based on the
+following study:</p>
+<p>Frumuselu, Anca Daniela, Sven De Maeyer, Vincent Donche, and María
+del Mar Gutiérrez Colon Plana. 2015. “Television Series Inside the EFL
+Classroom: Bridging the Gap Between Teaching and Learning Informal
+Language Through Subtitles.” Linguistics and Education 32 (December):
+107–17. <a href="https://doi.org/10.1016/j.linged.2015.10.001" class="uri">https://doi.org/10.1016/j.linged.2015.10.001</a>.</p>
 </div>
 </div>
 </div>
@@ -2300,7 +2407,7 @@ here </a></p>
 <div id="info" class="section level3">
 <h3>Info</h3>
 <p>During the course we introduced the WAMBS (when to Worry and how to
-Avoid the Misuse of Bayesian Statistics) checklist as a tool to
+Avoid the Misuse of Bayesian Statistics) check-list as a tool to
 structure your thinking and checking of your Bayesian model(s).</p>
 <p>To see an example of this WAMBS checklist applied to the final model
 on the Marathon Data click
@@ -2322,6 +2429,68 @@ Depaoli, S. (2020). A tutorial on using the WAMBS checklist to avoid the
 misuse of Bayesian statistics. Small Sample Size Solutions: A Guide for
 Applied Researchers and Practitioners; van de Schoot, R., Miocevic, M.,
 Eds, 30-49.</p>
+</div>
+</div>
+</div>
+<div id="links" class="section level1">
+<h1>Links</h1>
+<div id="column-1-7" class="section level2">
+<h2>Column 1</h2>
+<div id="reading-tips" class="section level3">
+<h3>Reading tips</h3>
+<p>Many books are written that discuss Bayesian modelling. Here you can
+find two books that I would suggest for learning more about Bayesian
+analyses.</p>
+<p>A first book is the book by <b>Ben Lambert</b>: <b>“A Student’s Guide
+to Bayesian Statistics”</b>. This book is great if you want to learn
+more about the statistical theory behind Bayesian analyses and MCMC
+sampling. He succeeds in explaining these topics in a thorough
+conceptual way, without you getting lost in the mathematics and
+formulas. For me, this book was of great value!</p>
+<p>A big hit these days is the book by <b> Richard McElreath</b>:
+<b>“Statistical Rethinking. A Bayesian Course with examples in R and
+Stan” </b>. In this course, Richard McElreath introduces statistical
+reasoning from scratch, integrating three key components for good
+statistical thinking: DAGs, Bayesian statistics, and multi-level models.
+So, this book is more than solely a book about Bayesian models. The
+lectures of Richard McElreath based on this book can be found for free
+on YouTube.</p>
+</div>
+<div id="some-free-online-books" class="section level3">
+<h3>Some free online books
+<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M448 336v-288C448 21.49 426.5 0 400 0H96C42.98 0 0 42.98 0 96v320c0 53.02 42.98 96 96 96h320c17.67 0 32-14.33 32-31.1c0-11.72-6.607-21.52-16-27.1v-81.36C441.8 362.8 448 350.2 448 336zM143.1 128h192C344.8 128 352 135.2 352 144C352 152.8 344.8 160 336 160H143.1C135.2 160 128 152.8 128 144C128 135.2 135.2 128 143.1 128zM143.1 192h192C344.8 192 352 199.2 352 208C352 216.8 344.8 224 336 224H143.1C135.2 224 128 216.8 128 208C128 199.2 135.2 192 143.1 192zM384 448H96c-17.67 0-32-14.33-32-32c0-17.67 14.33-32 32-32h288V448z"></path></svg></h3>
+<ul>
+<li>Bayes Rules!:</li>
+</ul>
+<p><a href="https://www.bayesrulesbook.com/" target="blank">https://www.bayesrulesbook.com/</a></p>
+<ul>
+<li>Or this book:</li>
+</ul>
+<p><a href="https://vasishth.github.io/bayescogsci/book/">
+https://vasishth.github.io/bayescogsci/book/ </a></p>
+</div>
+</div>
+<div id="column-2-6" class="section level2">
+<h2>Column 2</h2>
+<div id="the-podcast" class="section level3">
+<h3>THE Podcast
+<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M224 0C100.3 0 0 100.3 0 224c0 92.22 55.77 171.4 135.4 205.7c-3.48-20.75-6.17-41.59-6.998-58.15C80.08 340.1 48 285.8 48 224c0-97.05 78.95-176 176-176s176 78.95 176 176c0 61.79-32.08 116.1-80.39 147.6c-.834 16.5-3.541 37.37-7.035 58.17C392.2 395.4 448 316.2 448 224C448 100.3 347.7 0 224 0zM224 312c-32.88 0-64 8.625-64 43.75c0 33.13 12.88 104.3 20.62 132.8C185.8 507.6 205.1 512 224 512s38.25-4.375 43.38-23.38C275.1 459.9 288 388.8 288 355.8C288 320.6 256.9 312 224 312zM224 280c30.95 0 56-25.05 56-56S254.1 168 224 168S168 193 168 224S193 280 224 280zM368 224c0-79.53-64.47-144-144-144S80 144.5 80 224c0 44.83 20.92 84.38 53.04 110.8c4.857-12.65 14.13-25.88 32.05-35.04C165.1 299.7 165.4 299.7 165.6 299.7C142.9 282.1 128 254.9 128 224c0-53.02 42.98-96 96-96s96 42.98 96 96c0 30.92-14.87 58.13-37.57 75.68c.1309 .0254 .5078 .0488 .4746 .0742c17.93 9.16 27.19 22.38 32.05 35.04C347.1 308.4 368 268.8 368 224z"></path></svg></h3>
+<p>If you like running - like I do - this could be a great companion on
+your run! In this podcast different guests from different backgrounds
+discuss the power and reasoning behind Bayesian analyses and how
+Bayesian statistics are used in their field from Astronomy, over
+Psychology to Sports Analyses (and many more).</p>
+<p><a href="https://www.learnbayesstats.com/">https://www.learnbayesstats.com/
+</a></p>
+</div>
+<div id="online-learning-material" class="section level3">
+<h3>Online learning material</h3>
+<p>The research group of Rens van de Schoot (Utrecht University)
+publishes a lot on Bayesian statistics. They also developed a summer
+school. Their materials are also openly available at (you will notice
+how their way of sharing materials has inspired me :-))</p>
+<p><a href="https://utrechtuniversity.github.io/BayesianEstimation/#quick-overview">https://utrechtuniversity.github.io/BayesianEstimation/#quick-overview
+</a></p>
 </div>
 </div>
 </div>

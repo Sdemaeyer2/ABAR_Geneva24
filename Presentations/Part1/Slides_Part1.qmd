@@ -52,23 +52,25 @@ Let's get to know each other first!
 
 Part 1: Introduction to Bayesian inferences and some basics in `brms`
 
-Part 2: Reporting and interpreting Bayesian models (Pt. 1)
+Part 2: Checking the model with the WAMBS and how to do it in `R`
 
-Part 3: Reporting and interpreting Bayesian models (Pt. 2) + Checking the model with the WAMBS and how to do it in `R`
+Part 3: Reporting and interpreting Bayesian models
 
-Part 4: Analysing your own data
+Part 4: Analysing your own data or integrated excercise
 
 ## Practical stuff
 
-All material is on a shared Dropbox folder called [ABAR_Geneva24]{style="color: #447099"}
+All material is on the on-line dashboard: 
+
+<https://abar-geneva-2024.netlify.app/>
 
 You can find:
 
--   Folder [Presentations]{style="color: #447099"}
+-   an overview of the course
 
--   Sub-folders for each part of the workshop
+-   how to prepare
 
--   With files called [Slides_Part1.html]{style="color: #447099"} (presentation you can open) and [Slides_Part1.qmd]{style="color: #447099"} (source quarto file)
+-   for each day the slides and datasets
 
 -   html slides can be exported to pdf in your browser (use the menu button bottom right)
 

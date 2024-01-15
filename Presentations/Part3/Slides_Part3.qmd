@@ -410,7 +410,7 @@ posterior_PD %>%
 
 ## Hypothetical Outcome Plots (HOPs)
 
-Code: see separate script called `HOP_script.R` on Dropbox
+Code: see separate script called `HOP_script.R`
 
 ```{r}
 ### CREATING HYPOTHETICAL OUTCOME PLOTS FOR BRMS MODEL ###
@@ -566,7 +566,7 @@ as_draws_df(M3) %>%
 
 ## HOP per higher level unit
 
-Code: see separate script called `HOP_MixedEffects_script.R` on Dropbox
+Code: see separate script called `HOP_MixedEffects_script.R`
 
 ```{r}
 
@@ -690,7 +690,6 @@ P1
 
 
 ```
-
 
 # Reporting stats about the posterior
 

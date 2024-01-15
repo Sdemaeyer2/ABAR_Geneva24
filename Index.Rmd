@@ -17,11 +17,18 @@ This site bundles all the material used for the course [ABAR_Geneva24]{style="co
 
 ---
 
-
 Instructor: 
 
- - <a href="https://sdemaeyer.quarto.pub/" target="_blank">Sven De Maeyer</a>
- 
+ - <a href="https://sdemaeyer.quarto.pub/" target="_blank">Sven De Maeyer</a> 
+
+---
+
+All materials for the course can be downloaded via <a href="https://github.com/Sdemaeyer2/ABAR_Geneva24" target="_blank">the github page </a>. 
+
+---
+
+Questions or feedback, do not hesitate to contact me at
+sven.demaeyer@uantwerpen.be
 
 ---
 
@@ -222,7 +229,7 @@ starwars |>
 
 In the first part, we will introduce the basic rationale behind Bayesian statistics. We start by explaining the three key components of a Bayesian model: the prior, the likelihood, and the posterior. 
 
-Then, we switch to how the estimation of parameters by first introducing the basic idea of grid approximation and then outlining the basic idea of MCMC sampling.
+Then, we switch to the estimation of parameters by first introducing the basic idea of grid approximation and then outlining the basic idea of MCMC sampling.
 
 At the end of the session we introduce `brms` and learn how to estimate a simple regression model with `brms` and just use the `summary()` and `plot()` functions to get insight in the model results.
 
@@ -234,7 +241,7 @@ The htlm-version of the slides for this first part can be found <a href="Present
 
 #### Data
 
-For this first part, we used a straightforward dataset on predicting racetimes for a marathon. The data can be downloaded <a href="Data/MarathonData.RData" target="blank"> here </a> (right-click to save as). 
+For this first part, we use a straightforward dataset on predicting racetimes for a marathon. The data can be downloaded <a href="Data/MarathonData.RData" target="blank"> here </a> (right-click to save as). 
 
 ## Column 2
 
@@ -256,9 +263,25 @@ Interactive tool demonstrating MCMC sampling:
 
 ### Outline
 
+The second part of this workshop taps into the critical appraisal of your model. Bayesian analyses (as a matter a fact, all statistical analyses) are full of choices. So, as a researcher, it is our duty to understand what we are doing and provide evidence and arguments for the validity of our choices. To increase reproducibility, we tap into how you can use the WAMBS check-list to inform readers about our choices and decisions on the choice of priors, model convergence, and prior sensitivity. 
+
+#### Slides
+
+The htlm-version of the slides for this part can be found <a href="Presentations/Part2/Slides_Part2.html" target="blank">here</a>
+
+#### Data
+
+For this part, we again use the straightforward dataset on predicting racetimes for a marathon. The data can be downloaded <a href="Data/MarathonData.RData" target="blank"> here </a> (right-click to save as). 
+
 ## Column 2
 
 ### References and resources
+
+Depaoli, S., & Van de Schoot, R. (2017). Improving transparency and replication in Bayesian statistics: The WAMBS-Checklist. Psychological methods, 22(2), 240.
+
+Van de Schoot, R., Veen, D., Smeets, L., Winter, S. D., & Depaoli, S. (2020). A tutorial on using the WAMBS checklist to avoid the misuse of Bayesian statistics. Small Sample Size Solutions: A Guide for Applied Researchers and Practitioners; van de Schoot, R., Miocevic, M., Eds, 30-49.
+
+See the WAMBS tab on this dashboard for the template we use.
 
 # Thursday
 
@@ -266,9 +289,38 @@ Interactive tool demonstrating MCMC sampling:
 
 ### Outline
 
+This part of the workshop is about interpreting and reporting the results of our models. Here we demonstrate different ways to make sense of the information in our posterior probability distributions for our parameters. First, we will show how different packages in `R` can be used to visually explore the posterior probability distributions. Next, we focus on how to numerically summarize the information in the posterior probability distribution in order to support our reporting on the results. 
+
+#### Slides
+
+The htlm-version of the slides for this first part can be found <a href="Presentations/Part3/Slides_Part3.html" target="blank">here</a>
+
+#### Data
+
+For this first part, we used a dataset on the effect of a writing intervention. The data can be downloaded <a href="Data/WritingData.RData" target="blank"> here </a> (right-click to save as). 
+
+#### R scripts
+
+A powerfull way to visualize the effects of (mixed effects) regression models, is to plot <i>Hypothetical Outcome Plots</i>. These type of plots need a considerable amount of coding. Therefore, we provide two R-scripts that can be used as a starting point to plot your own results:
+
+- <a href="R_code/HOP_Script.R" target="blank"> HOP_Script.R </a>
+
+- <a href="R_code/HOP_MixedEffects_Script.R" target="blank"> HOP_MixedEffects_Script.R </a>
+
 ## Column 2
 
 ### References and resources
+
+More on the `bayesplot` package: <a href="https://mc-stan.org/bayesplot/" target="blank"> https://mc-stan.org/bayesplot/ </a>
+
+More on the `ggdist` package: <a href="https://mjskay.github.io/ggdist/reference/index.html" target="blank"> https://mjskay.github.io/ggdist/reference/index.html </a>
+
+Papers on the use of quantile dotplots: 
+
+- <a href="https://dl.acm.org/doi/10.1145/2858036.2858558" target="blank"> https://dl.acm.org/doi/10.1145/2858036.2858558 </a>
+
+- <a href="https://www.mjskay.com/papers/chi2018-uncertain-bus-decisions.pdf" target="blank"> https://www.mjskay.com/papers/chi2018-uncertain-bus-decisions.pdf </a>
+
 
 # Friday
 
@@ -276,9 +328,23 @@ Interactive tool demonstrating MCMC sampling:
 
 ### Outline
 
+In the final part, you can apply all the insights of the course on your own research by analysing your own data using a Bayesian approach. If you have no concrete dataset yet to apply the Bayesian analyses, you can execute the integrated exercise (see below). 
+
+### Integrated exercise
+
+On the following page you can find an html file with the tasks for this exercise: <a href="Integrated_exercise/Exercise.html" target="blank">click here</a>
+
+The dataset for this exercise can be downloaded here: <a href="Integrated_exercise/Subtitles.RData" target="blank">Subtitles.RData</a>
+
+If you are stuck while making this exercise, you can consult an example response <a href="Integrated_exercise/Exercise_response.html" target="blank">here </a>
+
 ## Column 2
 
 ### References and resources
+
+The data for the exercise is a simulated dataset based on the following study:
+
+Frumuselu, Anca Daniela, Sven De Maeyer, Vincent Donche, and María del Mar Gutiérrez Colon Plana. 2015. “Television Series Inside the EFL Classroom: Bridging the Gap Between Teaching and Learning Informal Language Through Subtitles.” Linguistics and Education 32 (December): 107–17. https://doi.org/10.1016/j.linged.2015.10.001.
 
 # WAMBS Template
 
@@ -286,7 +352,7 @@ Interactive tool demonstrating MCMC sampling:
 
 ### Info
 
-During the course we introduced the WAMBS (when to Worry and how to Avoid the Misuse of Bayesian Statistics) checklist as a tool to structure your thinking and checking of your Bayesian model(s). 
+During the course we introduced the WAMBS (when to Worry and how to Avoid the Misuse of Bayesian Statistics) check-list as a tool to structure your thinking and checking of your Bayesian model(s). 
 
 To see an example of this WAMBS checklist applied to the final model on the Marathon Data click <a href="WAMBS_template/WAMBS_workflow_MarathonData.html" target="blank">here</a>.
 
@@ -301,4 +367,38 @@ Depaoli, S., & Van de Schoot, R. (2017). Improving transparency and replication 
 
 Van de Schoot, R., Veen, D., Smeets, L., Winter, S. D., & Depaoli, S. (2020). A tutorial on using the WAMBS checklist to avoid the misuse of Bayesian statistics. Small Sample Size Solutions: A Guide for Applied Researchers and Practitioners; van de Schoot, R., Miocevic, M., Eds, 30-49.
 
+# Links
 
+## Column 1
+
+### Reading tips
+
+Many books are written that discuss Bayesian modelling. Here you can find two books that I would suggest for learning more about Bayesian analyses.
+
+A first book is the book by <b>Ben Lambert</b>: <b>"A Student's Guide to Bayesian Statistics"</b>. This book is great if you want to learn more about the statistical theory behind Bayesian analyses and MCMC sampling. He succeeds in explaining these topics in a thorough conceptual way, without you getting lost in the mathematics and formulas. For me, this book was of great value!
+
+A big hit these days is the book by <b> Richard McElreath</b>: <b>"Statistical Rethinking. A Bayesian Course with examples in R and Stan" </b>. In this course, Richard McElreath introduces statistical reasoning from scratch, integrating three key components for good statistical thinking: DAGs, Bayesian statistics, and multi-level models. So, this book is more than solely a book about Bayesian models. The lectures of Richard McElreath based on this book can be found for free on YouTube. 
+
+### Some free online books `r fontawesome::fa("book")`
+
+-   Bayes Rules!:
+
+<a href="https://www.bayesrulesbook.com/" target="blank">https://www.bayesrulesbook.com/</a>
+
+-   Or this book:
+
+<a href="https://vasishth.github.io/bayescogsci/book/"> https://vasishth.github.io/bayescogsci/book/ </a>
+
+## Column 2
+
+### THE Podcast `r fontawesome::fa("podcast")`
+
+If you like running - like I do - this could be a great companion on your run! In this podcast different guests from different backgrounds discuss the power and reasoning behind Bayesian analyses and how Bayesian statistics are used in their field from Astronomy, over Psychology to Sports Analyses (and many more).
+
+<a href="https://www.learnbayesstats.com/">https://www.learnbayesstats.com/ </a>
+
+### Online learning material
+
+The research group of Rens van de Schoot (Utrecht University) publishes a lot on Bayesian statistics. They also developed a summer school. Their materials are also openly available at (you will notice how their way of sharing materials has inspired me :-))  
+
+<a href="https://utrechtuniversity.github.io/BayesianEstimation/#quick-overview">https://utrechtuniversity.github.io/BayesianEstimation/#quick-overview </a>
