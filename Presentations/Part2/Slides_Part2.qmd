@@ -158,9 +158,9 @@ Tutorial source: <https://www.rensvandeschoot.com/brms-wambs/>
 
 ## WAMBS Template to use
 
--   Dropbox
-
 -   File called [WAMBS_workflow_MarathonData.qmd]{style="color: #447099"} (quarto document)
+
+-   <a href="https://abar-geneva-2024.netlify.app/WAMBS_template/WAMBS_workflow_MarathonData.qmd" target="blank">Click here </a> for the Quarto version
 
 -   Create your own project and project folder
 
@@ -293,7 +293,7 @@ Many options:
 -   The Zoo of Distributions <https://ben18785.shinyapps.io/distribution-zoo/>
 -   making your own visualizations
 
-See WAMBS template (see Dropbox)!
+See WAMBS template!
 
 There we demonstrate the use of `ggplot2`, `metRology`, `ggtext` and `patchwork` to visualize the priors.
 
@@ -616,15 +616,16 @@ mcmc_rhat(rhat(MarathonTimes_Mod2),
 
 ## Autocorrelation
 
-* Sampling of parameter values are not independent!
+-   Sampling of parameter values are not independent!
 
-* So there is autocorrelation
+-   So there is autocorrelation
 
-* But you don't want too much impact of autocorrelation
+-   But you don't want too much impact of autocorrelation
 
-* 2 approaches to check this:
-  + ratio of the effective sample size to the total sample size
-  + plot degree of autocorrelation
+-   2 approaches to check this:
+
+    -   ratio of the effective sample size to the total sample size
+    -   plot degree of autocorrelation
 
 ## Ratio effective sample size / total sample size
 
