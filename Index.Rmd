@@ -358,7 +358,7 @@ To see an example of this WAMBS checklist applied to the final model on the Mara
 
 The Quarto document to make this report can be found <a href="WAMBS_template/WAMBS_workflow_MarathonData.qmd" target="blank">here</a> (right-click to save).
 
-
+If you want to render the Quarto document and have the references in there, you also need to download the `references.bib` file and store it in the same folder as the Quarto document. The references file can be downloaded <a href="WAMBS_template/references.bib" target="blank">here</a> (right-click to save).
 ## Column 2
 
 ### References and resources

@@ -60,7 +60,7 @@ Part 4: Analysing your own data or integrated excercise
 
 ## Practical stuff
 
-All material is on the on-line dashboard: 
+All material is on the on-line dashboard:
 
 <https://abar-geneva-2024.netlify.app/>
 
@@ -141,8 +141,8 @@ Sample: for each km more a week approx half a minute faster
 
 Population:
 
--   prob to observe a \|0.509\| estimate if effect is zero in the population is lower than 0.05
--   in 95% of similar samples from that population the estimate would be between `r lower` and `r higher`
+-   p-value = prob to observe a \|0.509\| estimate if effect is zero in the population is lower than 0.05
+-   CI = 95% chance that the true population slope is a value between `r lower` and `r higher`
 
 ==\> So: -0.6 is as equally probable as -0.4 ...
 

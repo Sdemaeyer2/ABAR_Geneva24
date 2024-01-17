@@ -170,6 +170,8 @@ Tutorial source: <https://www.rensvandeschoot.com/brms-wambs/>
 
 -   You can apply/adapt the code in the template
 
+-  To render the document properly with references, you also need the <a href="https://abar-geneva-2024.netlify.app/WAMBS_template/references.bib" target="blank">references.bib file </a>
+
 ## Side-path: projects in RStudio and the `here` package
 
 If you do not know how to use Projects in RStudio or the `here` package, these two sources might be helpfull:
@@ -586,7 +588,7 @@ knitr::include_graphics("Vethari_paper.jpg")
 :::
 
 ::: {.column width="50%"}
--   $\widehat{R}$ \< 1.015 for each parameter estimate
+-   $\widehat{R}$ \< 1.05 for each parameter estimate
 
 -   at least 4 chains are recommended
 
