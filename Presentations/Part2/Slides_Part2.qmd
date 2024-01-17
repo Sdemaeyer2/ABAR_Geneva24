@@ -121,7 +121,7 @@ print(Comparison, simplify = F)
 }
 ```
 
-## When to Worry and How to avoid Misuse of Bayesian Statistics {.smaller}
+## When to Worry and How to Avoid Misuse of Bayesian Statistics {.smaller}
 
 by Laurent Smeets and Rens van der Schoot
 
