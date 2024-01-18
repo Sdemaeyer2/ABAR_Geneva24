@@ -383,6 +383,10 @@ A big hit these days is the book by <b> Richard McElreath</b>: <b>"Statistical R
 
 ### Some free online books `r fontawesome::fa("book")`
 
+-   John Kruschke's book <b>Doing Bayesian Data Analyses: a tutorial with R, Jags, and Stan </b>:
+
+<a href="https://nyu-cdsc.github.io/learningr/assets/kruschke_bayesian_in_R.pdf" target="blank">https://nyu-cdsc.github.io/learningr/assets/kruschke_bayesian_in_R.pdf</a>
+
 -   Bayes Rules!:
 
 <a href="https://www.bayesrulesbook.com/" target="blank">https://www.bayesrulesbook.com/</a>
