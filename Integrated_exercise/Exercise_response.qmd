@@ -408,13 +408,211 @@ M3b <- readRDS(
 
 Perform different checks on the convergence of the model.
 
+---
+
+<i> Possible solution </i>
+
+Let's start by checking the trace-plots.
+
+```{r}
+#| echo: true
+#| message: false
+#| error: false
+#| cache: false
+#| warning: false
+
+library(ggmcmc)
+
+Model_chains <- ggs(M3b)
+
+Model_chains %>%
+  filter(Parameter %in% c(
+    "b_Intercept",
+    "b_FL", 
+    "b_MT", 
+    "b_Occ2", 
+    "b_Occ3",
+    "b_FL:Occ2",
+    "b_FL:Occ3",
+    "b_MT:Occ2",
+    "b_MT:Occ3"
+    )
+  ) %>%
+  ggplot(aes(
+    x   = Iteration,
+    y   = value, 
+    col = as.factor(Chain)))+
+  geom_line() +
+  facet_grid(Parameter ~ .,
+             scale  = 'free_y',
+             switch = 'y') +
+  labs(title = "Caterpillar Plots for the parameters",
+       col   = "Chains")
+```
+
+Looking at the trace-plots, we can conclude that all chains mixed very well. This is already a first indication of succesful convergence.
+
+Next, we can check the R-hat statistic for each of the parameters. With the following plot we get a visual overview of all the R-hat statistics (notice the large number of parameters, because we also have random effects in our model):
+
+```{r}
+#| echo: true
+#| message: false
+#| error: false
+#| cache: false
+
+library(bayesplot)
+
+mcmc_rhat(
+  rhat(M3b), 
+  size = 1) +
+  yaxis_text(hjust = 1) # to print parameter names
+```
+
+None of the parameters shows a high R-hat statistic. They all are below the threshold of 1.05, indicating that all parameters converged well.
+
+Time to get insight in the amount of autocorrelation. A first check is plotting the ratio of the number of Effective Sample Sizes to the Total Sampel Sizes for all the parameters. Remember that this ratio should be above 0.1 to be sure that the amount of autocorrelation is acceptable. Following code gives a visual overview of these ratios.
+
+```{r}
+#| echo: true
+#| message: false
+#| error: false
+#| cache: false
+
+mcmc_neff(
+  neff_ratio(M3b)
+  ) + 
+  yaxis_text(hjust = 1)
+```
+
+From the plot we learn that for all the parameters the ratio is above 0.1. So, we can conclude that the amount of autocorrelation is not problematic for any of the parameters.
+
+---
+
 ## Subtask 2.3: does the posterior distribution histogram have enough information?
 
 Check if the posterior distribution histograms of the different parameters are informative enough to substantiate our inferences.
 
+---
+
+<i> Possible solution </i>
+
+To evaluate this, we create histograms based on the draws for our parameter models. We will apply this first for all main effects.
+
+```{r}
+#| echo: true
+#| message: false
+#| error: false
+#| cache: false
+#| warning: false
+
+library(patchwork)
+
+posterior_PD <- as_draws_df(M3b)
+
+post_intercept <- 
+  posterior_PD %>%
+  select(b_Intercept) %>%
+  ggplot(aes(x = b_Intercept)) +
+  geom_histogram() +
+  ggtitle("Intercept") 
+
+post_Occ2 <- 
+  posterior_PD %>%
+  select(b_Occ2) %>%
+  ggplot(aes(x = b_Occ2)) +
+  geom_histogram() +
+  ggtitle("Beta Occ2") 
+
+post_Occ3 <- 
+  posterior_PD %>%
+  select(b_Occ3) %>%
+  ggplot(aes(x = b_Occ3)) +
+  geom_histogram() +
+  ggtitle("Beta Occ3") 
+
+post_FL <- 
+  posterior_PD %>%
+  select(b_FL) %>%
+  ggplot(aes(x = b_FL)) +
+  geom_histogram() +
+  ggtitle("Beta FL") 
+
+post_MT <- 
+  posterior_PD %>%
+  select(b_MT) %>%
+  ggplot(aes(x = b_MT)) +
+  geom_histogram() +
+  ggtitle("Beta MT") 
+
+
+post_intercept + post_Occ2 + post_Occ3 + post_FL + post_MT +
+  plot_layout(ncol = 3)
+```
+
+These plots show clear slopes and a peak, indicating that the posterior is informative enough for each of these parameters.
+
+Now, let's do the same for the interaction effects.
+
+```{r}
+#| echo: true
+#| message: false
+#| error: false
+#| cache: false
+#| warning: false
+
+post_Occ2_FL <- 
+  posterior_PD %>%
+  select(`b_Occ2:FL`) %>%
+  ggplot(aes(x = `b_Occ2:FL`)) +
+  geom_histogram() +
+  ggtitle("Beta Occ2:FL") 
+
+post_Occ2_MT <- 
+  posterior_PD %>%
+  select(`b_Occ2:MT`) %>%
+  ggplot(aes(x = `b_Occ2:MT`)) +
+  geom_histogram() +
+  ggtitle("Beta Occ2:MT") 
+
+post_Occ3_FL <- 
+  posterior_PD %>%
+  select(`b_FL:Occ3`) %>%
+  ggplot(aes(x = `b_FL:Occ3`)) +
+  geom_histogram() +
+  ggtitle("Beta Occ3:FL") 
+
+post_Occ3_MT <- 
+  posterior_PD %>%
+  select(`b_MT:Occ3`) %>%
+  ggplot(aes(x = `b_MT:Occ3`)) +
+  geom_histogram() +
+  ggtitle("Beta Occ3:MT") 
+
+post_Occ2_FL + post_Occ2_MT + post_Occ3_FL + post_Occ3_MT +
+  plot_layout(ncol = 3)
+
+```
+
+Here the conclusion is the same. These histograms show no problematic cases.
+
+
 ## Subtask 2.4: how well does the model predict the observed data?
 
 Perform posterior predictive checks based on the model.
+
+---
+
+<i> Possible solutions </i>
+
+```{r}
+#| echo: true
+#| message: false
+#| error: false
+#| cache: false
+
+pp_check(M3b)
+```
+
 
 ## Subtask 2.5: what about prior sensitivity of the results?
 
