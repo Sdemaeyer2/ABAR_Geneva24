@@ -283,6 +283,11 @@ Van de Schoot, R., Veen, D., Smeets, L., Winter, S. D., & Depaoli, S. (2020). A 
 
 See the WAMBS tab on this dashboard for the template we use.
 
+Alternative for the WAMBS is the BARG:
+
+Kruschke, J. K. (2021). Bayesian Analysis Reporting Guidelines. Nature Human Behaviour, 5(10), Article 10. <a href=https://doi.org/10.1038/s41562-021-01177-7" target="blank">https://doi.org/10.1038/s41562-021-01177-7 </a>
+
+
 # Thursday
 
 ## Column 1
@@ -301,7 +306,7 @@ For this first part, we used a dataset on the effect of a writing intervention. 
 
 #### R scripts
 
-A powerfull way to visualize the effects of (mixed effects) regression models, is to plot <i>Hypothetical Outcome Plots</i>. These type of plots need a considerable amount of coding. Therefore, we provide two R-scripts that can be used as a starting point to plot your own results:
+A powerful way to visualize the effects of (mixed effects) regression models, is to plot <i>Hypothetical Outcome Plots</i>. These type of plots need a considerable amount of coding. Therefore, we provide two R-scripts that can be used as a starting point to plot your own results:
 
 - <a href="R_code/HOP_Script.R" target="blank"> HOP_Script.R </a>
 
