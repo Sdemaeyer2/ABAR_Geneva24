@@ -3044,7 +3044,14 @@ vertical-align: -.125em;
   <ul>
   <li><a href="#background-behind-the-dataset" id="toc-background-behind-the-dataset" class="nav-link active" data-scroll-target="#background-behind-the-dataset">Background behind the dataset</a></li>
   <li><a href="#task-1" id="toc-task-1" class="nav-link" data-scroll-target="#task-1">1. Task 1</a></li>
-  <li><a href="#task-2" id="toc-task-2" class="nav-link" data-scroll-target="#task-2">2. Task 2</a></li>
+  <li><a href="#task-2" id="toc-task-2" class="nav-link" data-scroll-target="#task-2">2. Task 2</a>
+  <ul class="collapse">
+  <li><a href="#subtask-2.1-what-about-the-priors" id="toc-subtask-2.1-what-about-the-priors" class="nav-link" data-scroll-target="#subtask-2.1-what-about-the-priors">Subtask 2.1: what about the priors?</a></li>
+  <li><a href="#subtask-2.2-did-the-model-converge-properly" id="toc-subtask-2.2-did-the-model-converge-properly" class="nav-link" data-scroll-target="#subtask-2.2-did-the-model-converge-properly">Subtask 2.2: did the model converge properly?</a></li>
+  <li><a href="#subtask-2.3-does-the-posterior-distribution-histogram-have-enough-information" id="toc-subtask-2.3-does-the-posterior-distribution-histogram-have-enough-information" class="nav-link" data-scroll-target="#subtask-2.3-does-the-posterior-distribution-histogram-have-enough-information">Subtask 2.3: does the posterior distribution histogram have enough information?</a></li>
+  <li><a href="#subtask-2.4-how-wel-does-the-model-predict-the-observed-data" id="toc-subtask-2.4-how-wel-does-the-model-predict-the-observed-data" class="nav-link" data-scroll-target="#subtask-2.4-how-wel-does-the-model-predict-the-observed-data">Subtask 2.4: how wel does the model predict the observed data?</a></li>
+  <li><a href="#subtask-2.5-what-about-prior-sensitivity-of-the-results" id="toc-subtask-2.5-what-about-prior-sensitivity-of-the-results" class="nav-link" data-scroll-target="#subtask-2.5-what-about-prior-sensitivity-of-the-results">Subtask 2.5: what about prior sensitivity of the results?</a></li>
+  </ul></li>
   <li><a href="#task-3" id="toc-task-3" class="nav-link" data-scroll-target="#task-3">3. Task 3</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
@@ -3147,12 +3154,46 @@ vertical-align: -.125em;
 </section>
 <section id="task-1" class="level1">
 <h1>1. Task 1</h1>
+<p>First we will start by building 4 alternative mixed effects models. In each of the models we have to take into account the fact that we have multiple observations per student. So we need a random effect for students in the model.</p>
+<ul>
+<li><p>M0: only an intercept and a random effect for <code>student</code></p></li>
+<li><p>M1: M0 + fixed effect of <code>occasion</code></p></li>
+<li><p>M2: M1 + fixed effect of <code>condition</code></p></li>
+<li><p>M3: M2 + interaction effect between <code>occasion</code> and <code>condition</code></p></li>
+</ul>
+<p>Make use of the default priors of <code>brms</code>.</p>
+<p>Once the models are estimated, compare the models on their fit making use of the leave-one-out cross-validation. Determine which model fits best and will be used to build our inferences.</p>
 </section>
 <section id="task-2" class="level1">
 <h1>2. Task 2</h1>
+<p>Now that we have established the best fitting model, it is our task to approach the model critically before delving into the interpretation of the results.</p>
+<p>Apply the different steps of the WAMBS check-list template for the final model.</p>
+<section id="subtask-2.1-what-about-the-priors" class="level2">
+<h2 class="anchored" data-anchor-id="subtask-2.1-what-about-the-priors">Subtask 2.1: what about the priors?</h2>
+<p>What are the default <code>brms</code> priors? Do they make sense? Do they generate impossible datasets? If necessary, specify your own (weakly informative) priors and approach the critically as well.</p>
+</section>
+<section id="subtask-2.2-did-the-model-converge-properly" class="level2">
+<h2 class="anchored" data-anchor-id="subtask-2.2-did-the-model-converge-properly">Subtask 2.2: did the model converge properly?</h2>
+<p>Perform different checks on the convergence of the model.</p>
+</section>
+<section id="subtask-2.3-does-the-posterior-distribution-histogram-have-enough-information" class="level2">
+<h2 class="anchored" data-anchor-id="subtask-2.3-does-the-posterior-distribution-histogram-have-enough-information">Subtask 2.3: does the posterior distribution histogram have enough information?</h2>
+<p>Check if the posterior distribution histograms of the different parameters are informative enough to substantiate our inferences.</p>
+</section>
+<section id="subtask-2.4-how-wel-does-the-model-predict-the-observed-data" class="level2">
+<h2 class="anchored" data-anchor-id="subtask-2.4-how-wel-does-the-model-predict-the-observed-data">Subtask 2.4: how wel does the model predict the observed data?</h2>
+<p>Perform posterior predictive checks based on the model.</p>
+</section>
+<section id="subtask-2.5-what-about-prior-sensitivity-of-the-results" class="level2">
+<h2 class="anchored" data-anchor-id="subtask-2.5-what-about-prior-sensitivity-of-the-results">Subtask 2.5: what about prior sensitivity of the results?</h2>
+<p>Finally, we have to check if the results of our model are not to dependent on the priors we specified in the model.</p>
+</section>
 </section>
 <section id="task-3" class="level1">
 <h1>3. Task 3</h1>
+<p>Now a more general task. Make different visualizations of the model results.</p>
+<p>One of the possible vizualisations could be a rather complex one. Remember, there are 3 conditions and 3 occasions. What I like to see is a plot showing the expected means for each of the conditions on each of the 3 occasions.</p>
+<p>And what do we learn about the progress between Occ1 and Occ2 in each of the groups?</p>
 </section>
 <section id="references" class="level1 unnumbered">
 
