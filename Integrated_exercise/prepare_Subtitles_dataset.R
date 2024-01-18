@@ -16,7 +16,11 @@ Subtitles <- Subtitles %>%
       condition == 2 ~ "MT",
       condition == 3 ~ "NoSub"
     ),
-    occasion = occassion
+    occasion = case_when(
+      occassion == 1 ~ "Occ1",
+      occassion == 2 ~ "Occ2",
+      occassion == 3 ~ "Occ3"
+    )
   ) %>%
   select(
     student,

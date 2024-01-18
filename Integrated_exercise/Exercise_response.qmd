@@ -65,10 +65,7 @@ Subtitles %>%
     aes(
       color = condition
     )
-  ) + 
-  scale_x_continuous(
-    breaks = c(1,2,3)
-  )
+  ) 
 ```
 
 ------------------------------------------------------------------------
@@ -99,7 +96,7 @@ Once the models are estimated, compare the models on their fit making use of the
 
 <i>Solution</i>
 
-The following code-block shows how the models can be estimated and compared on their fit.
+The following code-block shows how the models can be estimated and compared on their fit. Notice how I first create a set of dummy-variables for the categories of the `occasion` and the `condition` variables. This makes it a bit harder (more code writing) to define my model but it generates some flexibility later on. For instance, when thinking about setting priors, I can set priors for each of the effects of these dummy variables. Also, it will result in shorter names of parameters in my model in the resulting objects for the model.
 
 ```{r}
 #| echo: true
@@ -109,34 +106,75 @@ The following code-block shows how the models can be estimated and compared on t
 #| cache: false
 
 library(brms)
+library(tidyverse)
+
+Subtitles <- Subtitles %>%
+  mutate(
+
+    # dummy for Occ2
+    Occ2 = case_when(
+      occasion == "Occ2" ~ 1,
+      occasion == "Occ1" ~ 0,
+      occasion == "Occ3" ~ 0,
+    ),
+    
+    # dummy for Occ3
+    Occ3 = case_when(
+      occasion == "Occ3" ~ 1,
+      occasion == "Occ1" ~ 0,
+      occasion == "Occ2" ~ 0,
+    ),
+    
+    # dummy for FL condition
+    FL = case_when(
+      condition == "FL" ~ 1,
+      condition == "MT" ~ 0,
+      condition == "NoSub" ~ 0,
+    ),
+    
+    # dummy for MT
+    MT = case_when(
+      condition == "MT" ~ 1,
+      condition == "FL" ~ 0,
+      condition == "NoSub" ~ 0,
+    )
+  )
+
+# Estimate the models
 
 M0 <- brm(
   fluency ~ 1 + (1|student),
   data = Subtitles,
   cores = 4,
-  backend = "cmdstanr"
+  backend = "cmdstanr",
+  seed = 1975
 )
 
 M1 <- brm(
-  fluency ~ 1 + occasion + (1|student),
+  fluency ~ 1 + Occ2 + Occ3 + (1|student),
   data = Subtitles,
   cores = 4,
-  backend = "cmdstanr"
+  backend = "cmdstanr",
+  seed = 1975
 )
 
 M2 <- brm(
-  fluency ~ 1 + occasion + condition + (1|student),
+  fluency ~ 1 + Occ2 + Occ3 + FL + MT + (1|student),
   data = Subtitles,
   cores = 4,
-  backend = "cmdstanr"
+  backend = "cmdstanr",
+  seed = 1975
 )
 
 M3 <- brm(
-  fluency ~ 1 + occasion + condition + occasion*condition + (1|student),
+  fluency ~ 1 + Occ2*FL + Occ2*MT + Occ3*FL + Occ3*MT + (1|student),
   data = Subtitles,
   cores = 4,
-  backend = "cmdstanr"
+  backend = "cmdstanr",
+  seed = 1975
 )
+
+# loo cross-validation of the models
 
 loo_M0 <- loo(M0)
 loo_M1 <- loo(M1)
@@ -148,14 +186,49 @@ loo_models <- loo_compare(
   loo_M1,
   loo_M2,
   loo_M3
-  )
+)
 
 print(loo_models, simplify = F)
+
 ```
 
 ```{r}
 #| echo: false
 #| eval: true
+library(brms)
+library(tidyverse)
+
+Subtitles <- Subtitles %>%
+  mutate(
+
+    # dummy for Occ2
+    Occ2 = case_when(
+      occasion == "Occ2" ~ 1,
+      occasion == "Occ1" ~ 0,
+      occasion == "Occ3" ~ 0,
+    ),
+    
+    # dummy for Occ3
+    Occ3 = case_when(
+      occasion == "Occ3" ~ 1,
+      occasion == "Occ1" ~ 0,
+      occasion == "Occ2" ~ 0,
+    ),
+    
+    # dummy for FL condition
+    FL = case_when(
+      condition == "FL" ~ 1,
+      condition == "MT" ~ 0,
+      condition == "NoSub" ~ 0,
+    ),
+    
+    # dummy for MT
+    MT = case_when(
+      condition == "MT" ~ 1,
+      condition == "FL" ~ 0,
+      condition == "NoSub" ~ 0,
+    )
+  )
 
 loo_models <- readRDS(file = "loo_models.RDS")
 
@@ -163,6 +236,12 @@ print(loo_models, simplify = F)
 ```
 
 Based on the model comparison we can conclude that the final model (M3) fits the data best. We will use this model in the next sections to build our inferences.
+
+::: callout-note
+## Note
+
+When doing the loo comparison you might encounter a warning message saying that there is one or more observations showing a Pareto K higher than .7. What this means is that the leave-one-out cross-validation might be biased. The warning message suggest 'moment matching' as potential solution. You could try this. In my experience, the impact of one or two observations suffering a Pareto K value that is too high is rather small or even negligible. But it is always better to double check. Also, be aware that the moment matching solution creates a very slow estimation of the loo!
+:::
 
 ------------------------------------------------------------------------
 
@@ -176,6 +255,155 @@ Apply the different steps of the WAMBS check-list template for the final model.
 
 What are the default `brms` priors? Do they make sense? Do they generate impossible datasets? If necessary, specify your own (weakly informative) priors and approach the critically as well.
 
+------------------------------------------------------------------------
+
+<i> Potential Solution </i>
+
+Let's start with a prior predictive check. 
+
+```{r}
+#| echo: true
+#| eval: false
+
+M3_priors <- brm(
+  fluency ~ 1 + Occ2*FL + Occ2*MT + Occ3*FL + Occ3*MT + (1|student),
+  data = Subtitles,
+  cores = 4,
+  backend = "cmdstanr",
+  seed = 1975,
+  sample_prior = "only"
+)
+
+pp_check(M3_priors)
+```
+As you might notice, you will get an error message saying that sampling from the priors is not possible. This is due to the fact that `brms` by default uses flat priors. So, this generates this error message.
+
+To get the priors used by `brms` we use the `get_prior()` command.
+
+```{r}
+get_prior(
+  fluency ~ 1 + Occ2*FL + Occ2*MT + Occ3*FL + Occ3*MT + (1|student),
+  data = Subtitles
+)
+```
+
+For all the beta's (fixed effects) `brms` uses a flat prior. Actually, that is something that is better avoided. More appropriate would be to come up with our own priors. Let's think about this. All the explanatory variables are dummy variables. So, they quantify differences between groups of observations (based on time or condition). 
+
+As we have no prior idea about the directions of the effects of condition nor of the effect of time, we could use a prior distribution centred around 0 (most probability assigned to no effect). 
+
+Next, we have to think about setting the width of the prior. For instance, if we use a normal distribution to express our prior belief, we have to think about the sd for the normal distribution that captures our prior belief. In our case, the sd has to be high enough to assign some probability to even very strong positive and negative effects. Here, it is important that we know our data well. I mean, we need to know the scale of our dependent variable. This variable has an sd of `r sd(Subtitles$fluency, na.rm=T)`. So, now we can use Effect Sizes as a reference frame. Remember, an effect size of 0.8 (or higher) indicates a stron effect (Cohen's d). So, on our scale of the `fluency` variable an effect of 5.7 (= 7.1 * 0.8) indicates a strong effect. Let's use the value 5.7 as our sd for priors for the effects of our dummy variables. Visually the prior would look like this:
+
+```{r}
+# Setting a plotting theme
+
+library(ggplot2)
+library(ggtext) # to be able to change the fonts etc in graphs
+
+theme_set(theme_linedraw() +
+            theme(text = element_text(family = "Times", size = 8),
+                  panel.grid = element_blank(),
+                  plot.title = element_markdown())
+)
+
+Prior_betas <- ggplot( ) +
+  stat_function(
+    fun = dnorm,    # We use the normal distribution
+    args = list(mean = 0, sd = 5.7), # 
+    xlim = c(-15,15)
+  ) +
+  scale_y_continuous(name = "density") +
+  labs(title = "Prior for the effects of independent variables",
+       subtitle = "N(0,5.7)")
+
+Prior_betas
+```
+
+Notice that even effects of -10 and 10 (almast effect sizes of -2 and 2) still get a decent amount of probability in our prior density function. 
+
+Let's set these priors and try to apply a pp_check(). Notice that I set the priors for all slopes (`class = "b"`) at once.
+
+```{r}
+#| message: false
+#| error: false
+#| eval: false
+
+
+Custom_prior <- c(
+  set_prior(
+    "normal(0,5.7)",
+    class = "b"
+  )
+)
+
+M3_priors <- brm(
+  fluency ~ 1 + Occ2*FL + Occ2*MT + Occ3*FL + Occ3*MT + (1|student),
+  data = Subtitles,
+  cores = 4,
+  backend = "cmdstanr",
+  seed = 1975,
+  prior = Custom_prior,
+  sample_prior = "only"
+)
+
+pp_check(M3_priors)
+```
+
+```{r}
+#| echo: false
+#| eval: true
+#| message: false
+
+library(here)
+
+M3_priors <- readRDS(
+  here("Integrated_exercise", "M3_priors.RDS")
+)
+
+pp_check(M3_priors)
+```
+
+
+The simulated data goes all the way! But it doesn't generate extremely high or low observations and from this check we also learn that we have set quiet broad priors as they result in big differences between simulated datasets based on our model now.
+
+Time to apply these priors (that we somehow understand now) to estimate the real model.
+
+```{r}
+#| message: false
+#| error: false
+#| eval: false
+#| echo: true
+
+Custom_prior <- c(
+  set_prior(
+    "normal(0,5.7)",
+    class = "b"
+  )
+)
+
+M3 <- brm(
+  fluency ~ 1 + Occ2*FL + Occ2*MT + Occ3*FL + Occ3*MT + (1|student),
+  data = Subtitles,
+  cores = 4,
+  backend = "cmdstanr",
+  seed = 1975,
+  prior = Custom_prior
+  )
+```
+
+```{r}
+#| echo: false
+#| eval: true
+#| message: false
+
+library(here)
+
+M3b <- readRDS(
+  here("Integrated_exercise", "M3b.RDS")
+)
+```
+
+---
+
 ## Subtask 2.2: did the model converge properly?
 
 Perform different checks on the convergence of the model.
@@ -184,7 +412,7 @@ Perform different checks on the convergence of the model.
 
 Check if the posterior distribution histograms of the different parameters are informative enough to substantiate our inferences.
 
-## Subtask 2.4: how wel does the model predict the observed data?
+## Subtask 2.4: how well does the model predict the observed data?
 
 Perform posterior predictive checks based on the model.
 
@@ -193,5 +421,11 @@ Perform posterior predictive checks based on the model.
 Finally, we have to check if the results of our model are not to dependent on the priors we specified in the model.
 
 # 3. Task 3
+
+Now a more general task. Make different visualizations of the model results.
+
+One of the possible vizualisations could be a rather complex one. Remember, there are 3 conditions and 3 occasions. What I like to see is a plot showing the expected means for each of the conditions on each of the 3 occasions.
+
+And what do we learn about the progress between Occ1 and Occ2 in each of the groups?
 
 # References

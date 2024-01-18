@@ -1,34 +1,70 @@
 
 library(brms)
 
+Subtitles <- Subtitles %>%
+  mutate(
+
+    # dummy for Occ2
+    Occ2 = case_when(
+      occasion == "Occ2" ~ 1,
+      occasion == "Occ1" ~ 0,
+      occasion == "Occ3" ~ 0,
+    ),
+    
+    # dummy for Occ3
+    Occ3 = case_when(
+      occasion == "Occ3" ~ 1,
+      occasion == "Occ1" ~ 0,
+      occasion == "Occ2" ~ 0,
+    ),
+    
+    # dummy for FL condition
+    FL = case_when(
+      condition == "FL" ~ 1,
+      condition == "MT" ~ 0,
+      condition == "NoSub" ~ 0,
+    ),
+    
+    # dummy for MT
+    MT = case_when(
+      condition == "MT" ~ 1,
+      condition == "FL" ~ 0,
+      condition == "NoSub" ~ 0,
+    )
+  )
+
 # Estimate the models
 
 M0 <- brm(
   fluency ~ 1 + (1|student),
   data = Subtitles,
   cores = 4,
-  backend = "cmdstanr"
+  backend = "cmdstanr",
+  seed = 1975
 )
 
 M1 <- brm(
-  fluency ~ 1 + occasion + (1|student),
+  fluency ~ 1 + Occ2 + Occ3 + (1|student),
   data = Subtitles,
   cores = 4,
-  backend = "cmdstanr"
+  backend = "cmdstanr",
+  seed = 1975
 )
 
 M2 <- brm(
-  fluency ~ 1 + occasion + condition + (1|student),
+  fluency ~ 1 + Occ2 + Occ3 + FL + MT + (1|student),
   data = Subtitles,
   cores = 4,
-  backend = "cmdstanr"
+  backend = "cmdstanr",
+  seed = 1975
 )
 
 M3 <- brm(
-  fluency ~ 1 + occasion + condition + occasion*condition + (1|student),
+  fluency ~ 1 + Occ2*FL + Occ2*MT + Occ3*FL + Occ3*MT + (1|student),
   data = Subtitles,
   cores = 4,
-  backend = "cmdstanr"
+  backend = "cmdstanr",
+  seed = 1975
 )
 
 # Save the models
@@ -71,3 +107,40 @@ print(loo_models, simplify = F)
 
 saveRDS(loo_models,
      file = here("Integrated_exercise", "loo_models.RDS"))
+
+
+Custom_prior <- c(
+  set_prior(
+    "normal(0,5.7)",
+    class = "b"
+  )
+)
+
+M3_priors <- brm(
+  fluency ~ 1 + Occ2*FL + Occ2*MT + Occ3*FL + Occ3*MT + (1|student),
+  data = Subtitles,
+  cores = 4,
+  backend = "cmdstanr",
+  seed = 1975,
+  prior = Custom_prior,
+  sample_prior = "only"
+)
+
+M3b <- brm(
+  fluency ~ 1 + Occ2*FL + Occ2*MT + Occ3*FL + Occ3*MT + (1|student),
+  data = Subtitles,
+  cores = 4,
+  backend = "cmdstanr",
+  seed = 1975,
+  prior = Custom_prior
+)
+
+saveRDS(
+  M3_priors,
+  file = here("Integrated_exercise", "M3_priors.RDS")
+)
+
+saveRDS(
+  M3b,
+  file = here("Integrated_exercise", "M3b.RDS")
+)

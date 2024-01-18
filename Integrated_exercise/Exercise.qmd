@@ -63,10 +63,7 @@ Subtitles %>%
     aes(
       color = condition
     )
-  ) + 
-  scale_x_continuous(
-    breaks = c(1,2,3)
-  )
+  ) 
 ```
 
 ------------------------------------------------------------------------
@@ -111,7 +108,7 @@ Perform different checks on the convergence of the model.
 
 Check if the posterior distribution histograms of the different parameters are informative enough to substantiate our inferences.
 
-## Subtask 2.4: how wel does the model predict the observed data?
+## Subtask 2.4: how well does the model predict the observed data?
 
 Perform posterior predictive checks based on the model.
 
