@@ -622,8 +622,122 @@ Finally, we have to check if the results of our model are not to dependent on th
 
 Now a more general task. Make different visualizations of the model results.
 
-One of the possible vizualisations could be a rather complex one. Remember, there are 3 conditions and 3 occasions. What I like to see is a plot showing the expected means for each of the conditions on each of the 3 occasions.
+One of the possible visualizations could be a rather complex one. Remember, there are 3 conditions and 3 occasions. What I like to see is a plot showing the expected means for each of the conditions on each of the 3 occasions.
 
 And what do we learn about the progress between Occ1 and Occ2 in each of the groups?
+
+---
+
+<i> Possible solution </i>
+
+Let's start tackling this challenge: 
+
+<i>"One of the possible visualizations could be a rather complex one. Remember, there are 3 conditions and 3 occasions. What I like to see is a plot showing the expected means for each of the conditions on each of the 3 occasions."</i>
+
+Starting point: create an object containing the draws from the posterior based on model M3b.
+
+```{r}
+#| echo: true
+#| message: false
+#| error: false
+#| cache: false
+#| warning: false
+
+posterior_M3b <- as_draws_df(M3b)
+
+```
+
+The next step is calculating some predicted means, based on combinations of our dummy variables in the model. This is a 'tricky' step because we have to keep in mind that the model also contains interaction effects.
+
+```{r}
+#| echo: true
+#| message: false
+#| error: false
+#| cache: false
+#| warning: false
+
+posterior_M3b <- posterior_M3b %>%
+  mutate(
+    
+    # calculate expected mean for Occ1 condition NoSub (that's just our intercept)
+    Occ1_NoSub = b_Intercept,
+    # calculate expected mean for Occ1 condition FL (add main effect of FL)
+    Occ1_FL = b_Intercept + b_FL,
+    # calculate expected mean for Occ1 condition MT (add main effect of MT)
+    Occ1_MT = b_Intercept + b_MT,
+
+    # calculate expected mean for Occ2 condition NoSub (add main effect of Occ2)
+    Occ2_NoSub = b_Intercept + b_Occ2,
+    # calculate expected mean for Occ2 condition FL (add main effects and interaction term)
+    Occ2_FL = b_Intercept + b_Occ2 + b_FL + `b_Occ2:FL`,
+    # calculate expected mean for Occ2 condition MT (add main effects and interaction term)
+    Occ2_MT = b_Intercept + b_Occ2 + b_MT + `b_Occ2:MT`,
+
+    # calculate expected mean for Occ3 condition NoSub (add main effect of Occ2)
+    Occ3_NoSub = b_Intercept + b_Occ3,
+    # calculate expected mean for Occ3 condition FL (add main effects and interaction term)
+    Occ3_FL = b_Intercept + b_Occ3 + b_FL + `b_FL:Occ3`,
+    # calculate expected mean for Occ3 condition MT (add main effects and interaction term)
+    Occ3_MT = b_Intercept + b_Occ3 + b_MT + `b_MT:Occ3`
+
+  )
+```
+
+Now that we have calculated these estimated means, we can use these columns to create plots. What 
+
+```{r}
+#| echo: true
+#| message: false
+#| error: false
+#| cache: false
+#| warning: false
+
+library(ggplot2)
+library(ggdist)
+
+posterior_M3b %>%
+
+  # First: select only the relevant columns of our posterior draws object
+  select(
+    Occ1_NoSub, Occ1_FL, Occ1_MT,
+    Occ2_NoSub, Occ2_FL, Occ2_MT,
+    Occ3_NoSub, Occ3_FL, Occ3_MT,
+  ) %>%
+  
+  # Second: pivot everything longer to get two columns
+  # column called `name` containing the name of the parameter
+  # calumn called `value` containing the value for that parameter in that draw
+  pivot_longer(everything()) %>%
+  
+  # Now create new variable that indicates the Occasion because I want to use that as X-axis
+  # And create new variable that indicates the group (NoSub, MT, or FL) to make groups in the plot
+  mutate(
+    Occasion = case_when(
+      name == "Occ1_NoSub" | name == "Occ1_FL" | name == "Occ1_MT" ~ "Occ1",
+      name == "Occ2_NoSub" | name == "Occ2_FL" | name == "Occ2_MT" ~ "Occ2",
+      name == "Occ3_NoSub" | name == "Occ3_FL" | name == "Occ3_MT" ~ "Occ3",
+    ),
+    Group = case_when(
+      name == "Occ1_NoSub" | name == "Occ2_NoSub" | name == "Occ3_NoSub" ~ "No subtitles",
+      name == "Occ1_FL"    | name == "Occ2_FL"    | name == "Occ3_FL"    ~ "Foreign language",
+      name == "Occ1_MT"    | name == "Occ2_MT"    | name == "Occ3_MT"    ~ "Mother tongue",
+    )
+  ) %>%
+  
+  # Time to create the plot
+  ggplot(
+    aes(x = Occasion, 
+        y = value, 
+        group = Group, 
+        fill = Group)
+  ) +
+  stat_halfeye(
+    .width = c(.5, .89),
+    alpha = .4 # make the fill of the density plots more transparent
+  )
+
+```
+
+
 
 # References
