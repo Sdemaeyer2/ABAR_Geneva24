@@ -49,7 +49,7 @@ If we visualize the dataset we get a first impression of the effect of the condi
 library(tidyverse)
 
 theme_set(theme_linedraw() +
-            theme(text = element_text(family = "Times", size = 10),
+            theme(text = element_text(family = "Times", size = 12),
                   panel.grid = element_blank())
 )
 
@@ -624,7 +624,7 @@ Now a more general task. Make different visualizations of the model results.
 
 One of the possible visualizations could be a rather complex one. Remember, there are 3 conditions and 3 occasions. What I like to see is a plot showing the expected means for each of the conditions on each of the 3 occasions.
 
-And what do we learn about the progress between Occ1 and Occ2 in each of the groups?
+And what do we learn about the progress between Occ1 and Occ2 in each of the groups? And what about the progress between Occ2 and Occ3?
 
 ---
 
@@ -632,7 +632,7 @@ And what do we learn about the progress between Occ1 and Occ2 in each of the gro
 
 Let's start tackling this challenge: 
 
-<i>"One of the possible visualizations could be a rather complex one. Remember, there are 3 conditions and 3 occasions. What I like to see is a plot showing the expected means for each of the conditions on each of the 3 occasions."</i>
+|"One of the possible visualizations could be a rather complex one. Remember, there are 3 conditions and 3 occasions. What I like to see is a plot showing the expected means for each of the conditions on each of the 3 occasions."
 
 Starting point: create an object containing the draws from the posterior based on model M3b.
 
@@ -729,15 +729,150 @@ posterior_M3b %>%
     aes(x = Occasion, 
         y = value, 
         group = Group, 
-        fill = Group)
+        fill = Group)  # identify the experimental groups by the fill color
   ) +
   stat_halfeye(
     .width = c(.5, .89),
-    alpha = .4 # make the fill of the density plots more transparent
+    alpha = .4 # make the fill color of the density plots more transparent
   )
 
 ```
 
+The next challenge: 
 
+|"And what do we learn about the progress between Occ1 and Occ2 in each of the groups? And what about the progress between Occ2 and Occ3? Is progress between two occasions different in each of the conditions? "
+
+These questions can be compared with using tests on <i>estimated marginal means</i> and post-hoc testing by making use of contrasts in the frequentist realm. 
+
+We can first answer these questions by making visualisations of the posterior probability distributions for the estimated differences between occasions in each of the conditions. To make plots we rely again on our draws drawn from our posterior probability distributions. As a starting point we use the `posterior_M3b` object created above.
+
+```{r}
+#| echo: true
+#| message: false
+#| error: false
+#| cache: false
+#| warning: false
+
+# Start by creating difference scores between occasions based on draws
+
+posterior_M3b <- posterior_M3b %>%
+  mutate(
+
+    # Difference between occasions for condition NoSub
+    Occ2_Occ1_NoSub = Occ2_NoSub - Occ1_NoSub,
+    Occ3_Occ2_NoSub = Occ3_NoSub - Occ2_NoSub,
+
+    # Difference between occasions for condition FL
+    Occ2_Occ1_FL = Occ2_FL - Occ1_FL,
+    Occ3_Occ2_FL = Occ3_FL - Occ2_FL,
+
+    # Difference between occasions for condition MT
+    Occ2_Occ1_MT = Occ2_MT - Occ1_MT,
+    Occ3_Occ2_MT = Occ3_MT - Occ2_MT
+    
+  )
+
+# Create the visualisation
+
+posterior_M3b %>%
+
+  # select only the relevant columns for creating the plot
+  select(
+    Occ2_Occ1_NoSub, Occ3_Occ2_NoSub,
+    Occ2_Occ1_FL, Occ3_Occ2_FL,
+    Occ2_Occ1_MT, Occ3_Occ2_MT,
+  ) %>%
+  
+  # do the pivot_longer to create one vector of values and a vector of parameter names
+  pivot_longer(
+    everything( )
+    ) %>%
+
+ # Create variables that help identify groups of parameters to color the distributions
+  mutate(
+    Occasion = case_when(
+      name == "Occ2_Occ1_NoSub" | name == "Occ2_Occ1_FL" | name == "Occ2_Occ1_MT" ~ "Progress Occ1 Occ2",
+      name == "Occ3_Occ2_NoSub" | name == "Occ3_Occ2_FL" | name == "Occ3_Occ2_MT" ~ "Progress Occ2 Occ3"),
+    Group = case_when(
+      name == "Occ2_Occ1_NoSub" | name == "Occ3_Occ2_NoSub"  ~ "No subtitles",
+      name == "Occ2_Occ1_FL" | name == "Occ3_Occ2_FL"  ~ "Foreign language",
+      name == "Occ2_Occ1_MT" | name == "Occ3_Occ2_MT"  ~ "Mother tongue",
+    )
+  ) %>%
+
+  ggplot(
+    aes(
+      x = value,
+      y = Group
+    )
+  ) + 
+
+  # Let's plot interval visualisations
+  
+  stat_pointinterval(
+    .width = c(.5, .89)  
+    ) +
+  scale_y_discrete(name = "") +           # Drop the label of the y-scale
+  scale_x_continuous(name = "Fluency") +  # Name the x-scale
+  facet_wrap(.~Occasion)
+  
+```
+
+From this visualisation we learn that the progress between occasion 1 and 2 is rather similar in both subtitle groups (intervals strongly overlap). The students in the condition without subtitles make a smaller progress between occasion 1 and occasion 2 than the students in both subtitling conditions.
+
+Focussing on the progress between occasion 2 and 3, we see that the progress of the students in the foreiign language subtitling condition stands out from the progress made in the two other conditions.
+
+```{r}
+#| echo: true
+#| message: false
+#| error: false
+#| cache: false
+#| warning: false
+hypothesis(
+  posterior_M3b,
+  hypothesis = "Occ2_Occ1_MT > Occ2_Occ1_FL"
+)
+```
+
+If we wrap this `hypothesis()` part within a `plot()` function, we get a visualization of the posterior probability distribution of the difference in progress for the two subtitling conditions.
+
+```{r}
+#| echo: true
+#| message: false
+#| error: false
+#| cache: false
+#| warning: false
+
+plot(
+  hypothesis(
+    posterior_M3b,
+    hypothesis = "Occ2_Occ1_MT > Occ2_Occ1_FL"
+    )
+)
+```
+
+This visualization shows that a great amount of credible estimates of this difference in progress between both subtitling conditions is situated around zero, with high probabilities for both a negative and positve difference. In other words, most of the evidence shows that we are not sure to state whether both subtitling conditions differ in the progress in fluency they induced between occasion 1 and occasion 2.
+
+Now, let's focus on the difference between occasion 2 and occasion 3: how much evidence is there that this progress is stronger in the condition of foreign language subtitling compared to the condition of mother tongue subtitling?
+
+```{r}
+#| echo: true
+#| message: false
+#| error: false
+#| cache: false
+#| warning: false
+
+hypothesis(
+  posterior_M3b,
+  hypothesis = "Occ3_Occ2_FL > Occ3_Occ2_MT"
+)
+
+plot(
+ hypothesis(
+  posterior_M3b,
+  hypothesis = "Occ3_Occ2_FL > Occ3_Occ2_MT"
+ ) 
+)
+```
 
 # References
